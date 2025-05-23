@@ -1,13 +1,15 @@
 from martypy import Marty
 import time
 
-MARTY_IP = "192.168.0.108"
+
+
+MARTY_IP = "192.168.0.105"
 marty = None  # Initialisation globale
 
 def connexion():
     global marty
     try:
-        print("Connexion réussie à Marty.")
+        print("Connexion à Marty en cours...")
         marty = Marty("wifi", MARTY_IP)
         marty.enable_motors()
         marty.dance()
@@ -42,7 +44,7 @@ def capteur_distance():
 
 def color_detection():
     try:
-        couleur = marty.get_color_sensor_color("left")
+        couleur = marty.get_ground_sensor_reading('LeftColorSensor')
         print(f"🎨✅ Couleur détectée : {couleur}")
         return couleur
     except Exception:
@@ -55,6 +57,11 @@ def battery_detection():
         return battery
     except Exception as e:
         print(f"❌ Erreur lecture batterie : {e}")
+
+
+    
+
+
 
 if __name__ == "__main__":
     connexion()
