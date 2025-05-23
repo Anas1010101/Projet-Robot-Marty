@@ -1,0 +1,55 @@
+import time
+from martypy import Marty
+
+MARTY_IP = "192.168.0.105"  # Update this if the IP changes
+
+# Connect to Marty
+try:
+    marty = Marty("wifi", MARTY_IP)
+except Exception as e:
+    print(f"Connection failed: {e}")
+    exit()
+
+#  Eye expression functions 
+
+def eyes_normal():
+    marty.led(0, 0, 255)  # Blue color
+    marty.eyes("normal")
+    print("Normal eyes")
+    time.sleep(2)
+
+def eyes_angry():
+    marty.led(255, 0, 0)  # Red color
+    marty.eyes("angry")
+    print("Angry eyes")
+    time.sleep(2)
+
+def eyes_excited():
+    marty.led(0, 255, 0)  # Green color
+    marty.eyes("excited")
+    print("Excited eyes")
+    time.sleep(2)
+
+def eyes_wide():
+    marty.led(255, 255, 0)  # Yellow color
+    marty.eyes("wide")
+    print("Wide open eyes")
+    time.sleep(2)
+
+def eyes_wiggle():
+    marty.led(255, 0, 255)  # Purple color
+    marty.eyes("wiggle")
+    print("Wiggling eyes")
+    time.sleep(2)
+
+# Example usage of the functions 
+
+def demo_expressions():
+    eyes_normal()
+    eyes_angry()
+    eyes_excited()
+    eyes_wide()
+    eyes_wiggle()
+
+# Run the demo
+demo_expressions()
