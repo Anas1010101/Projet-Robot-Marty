@@ -16,9 +16,8 @@ def connexion():
         marty.enable_motors()
         marty.hello()
         marty.dance()
-        marty.play_mp3("soundLinga.mp3")
 
-        
+        capteur()
         
     except Exception as e:
         print(f"Erreur de connexion : {e}")
@@ -34,6 +33,26 @@ def deconnexion():
         except Exception as e:
             print(f"⚠️ Erreur lors de la déconnexion : {e}")
 
+def capteur():
+    global marty
+    battery = marty.get_battery_remaining()
+    distance = marty.get_obstacle_sensor_reading("right")
+
+    #Cette partie du code va afficher si il y a un obstacle sur la route de Marty à travers son pieds droit
+    if distance is not None and distance < 20:
+        print("⚠️  Obstacle détecté !")
+    else:
+        print("😊 Aucun obstacle détecté.")
+
+    #Cette partie du code va afficher le niveau de batterie de Marty
+    print(f"🔋 Batterie : {battery}")
+
+    #Cette partie du code va afficher la couleur captée par le pied gauche de Marty
+    try:
+        couleur = marty.get_color_sensor_color("left")
+        print(f"🎨✅ Couleur détectée : {couleur}")
+    except Exception:
+        print("🎨❌ Aucun capteur couleur détecté.")
 
     
     
