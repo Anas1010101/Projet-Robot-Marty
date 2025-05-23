@@ -16,8 +16,9 @@ def connexion():
         marty.enable_motors()
         marty.hello()
         marty.dance()
+        
 
-        capteur()
+        
         
     except Exception as e:
         print(f"Erreur de connexion : {e}")
@@ -33,37 +34,41 @@ def deconnexion():
         except Exception as e:
             print(f"⚠️ Erreur lors de la déconnexion : {e}")
 
-def capteur():
-    global marty
-    battery = marty.get_battery_remaining()
-    distance = marty.get_obstacle_sensor_reading("right")
+          
 
-    #Cette partie du code va afficher si il y a un obstacle sur la route de Marty à travers son pieds droit
-    if distance is not None and distance < 20:
-        print("⚠️  Obstacle détecté !")
-    else:
-        print("😊 Aucun obstacle détecté.")
+def obstacle_detectection():
+    value=marty.foot_obstacle_sensed()
 
-    #Cette partie du code va afficher le niveau de batterie de Marty
-    print(f"🔋 Batterie : {battery}")
+    print(f"Est ce que l'obstacle est detecté ?",value) # Affiche True si l'obstacle est détecté et False si l'obstacle est détecté
+    distance=marty.get_distance_sensor() ## Récupère la distance en mm
+    print("La distance par rapport au capteur est de ",distance,"mm")
 
-    #Cette partie du code va afficher la couleur captée par le pied gauche de Marty
-    try:
-        couleur = marty.get_color_sensor_color("left")
-        print(f"🎨✅ Couleur détectée : {couleur}")
-    except Exception:
-        print("🎨❌ Aucun capteur couleur détecté.")
+def distance_obstacle():
+
+    distance=marty.get_distance_sensor() ## Récupère la distance en mm
+    print("La distance par rapport au capteur est de ",distance,"mm")
+
+def color_detection_left():
+    valeur_1=marty.get_ground_sensor_reading('LeftColorSensor')
+    print("Capteur Pied gauche:",valeur_1) ##The more the surface is clear(white) the more the value is huge 
+
+def color_detection_right():
+    valeur_2=marty.get_ground_sensor_reading('RightColorSensor')
+    print("Capteur Pied droit:",valeur_2)## La fonction me renvoi une valeur numérique
+
 
     
+
+
     
     
 
 if __name__ == "__main__":
     connexion()
+    obstacle_detectection()
+    distance_obstacle()
+    color_detection_left()
+    color_detection_right()
     
     deconnexion()
     
-    
-    
-
-
