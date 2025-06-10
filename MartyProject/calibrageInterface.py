@@ -32,12 +32,30 @@ class calibrateWindow(QMainWindow):
             bouton.clicked.connect(lambda _, clr=(nom): self.bouton_clique(clr))
             layout.addWidget(bouton)
 
-        # Label pour afficher les informations de la couleur sÃ©lectionnÃ©e
-        self.label_infos = QLabel("Aucune couleur sÃ©lectionnÃ©e")
+        # Label pour afficher les informations de la couleur selectionnée
+        self.label_infos = QLabel("Aucune couleur selectionnée")
         layout.addWidget(self.label_infos)
 
         container = QWidget()
         container.setLayout(layout)
         self.setCentralWidget(container)
+
+
+        def bouton_clique(self, nom):
+        hex_code =self.my_marty.get_color_sensor_hex("left")
+        infos = f"Couleur selectionnéee: {nom}\nCode Hex: {hex_code}"
+        self.label_infos.setText(infos)
+        self.interface.displayColor(nom,hex_code)
+
+    def envoyer_couleur_a_marty(self, nom, hex_code):
+        
+        print(f"Envoi de la couleur {hex_code} pour {nom} au robot Marty")
+
+
+ if __name__ == "__main__":
+     app = QApplication([])
+     main_window = calibrateWindow()
+     main_window.show()
+     sys.exit(app.exec())
 
     
