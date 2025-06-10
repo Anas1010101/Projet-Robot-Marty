@@ -1,0 +1,52 @@
+from marty import Marty
+import re
+
+# the file.feel  in our exemple real.feels
+
+def parse_feels_file(file_path):
+    """Parse .feels file into config dictionary"""   
+    configs = {}
+    with open(file_path, 'r') as file:   # filr path ex ; 'C:/Users/YourUsername/Documents/MartyProject/robot.fells  or ('../robot.fells')    if it's in the parent folder   feels_file_path = "robot.feels"  Looks in the same directory
+        for line in file:
+            line = line.split('#')[0].strip()
+            if not line:
+                continue
+            
+            match = re.match(r'(\w+);(\w+);([0-9a-fA-F]{6})', line)
+            if match:
+                color, animation, hex_rgb = match.groups()
+                rgb = tuple(int(hex_rgb[i:i+2], 16) for i in (0, 2, 4))
+                configs[animation] = {
+                    'color': color,
+                    'rgb': rgb,
+                    'animation': animation
+                }
+    return configs
+
+def set_marty_eyes(marty, config_name, eye_configs):
+    """Set Marty's eyes using disco_color"""
+    if config_name in eye_configs:
+        config = eye_configs[config_name]
+        
+        # Set color using disco_color
+        marty.disco_color(config['color'])  # Using color name
+        
+       
+        
+    else:
+        print(f"Config '{config_name}' not found. Available: {list(eye_configs.keys())}")
+
+# Usage
+if __name__ == "__main__":
+    eye_configs = parse_feels_file('robot.fells')
+    marty = Marty.connect()
+    
+    try:
+        set_marty_eyes(marty, "angry", eye_configs)  #  the color will be red cuz its angry ( all from the file )
+        marty.arms(100, 100)  # Example action
+        
+        set_marty_eyes(marty, "excited", eye_configs)  # here its gonna be yellow also from the file  
+        marty.kick_left()  # Example action
+        
+    finally:
+        marty.close()            
