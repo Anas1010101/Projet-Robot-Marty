@@ -1,0 +1,54 @@
+from martypy import Marty
+import re
+
+MARTY_IP = "192.168.0.111"
+
+def connexion():
+    try:
+        marty = Marty("wifi", MARTY_IP)
+        marty.dance()
+        print("Connexion Réussie à Marty.")
+        return marty
+    except Exception as e:
+        print(f"Erreur de connexion : {e}")
+        return None
+
+def parse_feels_file(filename):
+    configs = {}
+    with open(filename, 'r') as file:
+        for line in file:
+            line = line.split('#')[0].strip()
+            if not line:
+                continue
+            
+            match = re.match(r'(\w+);(\w+);([0-9a-fA-F]{6})', line)
+            if match:
+                color, animation, hex_rgb = match.groups()
+                rgb = tuple(int(hex_rgb[i:i+2], 16) for i in (0, 2, 4))
+                configs[animation] = {
+                    'color': color,
+                    'rgb': rgb,
+                    'animation': animation
+                }
+    return configs
+
+def set_marty_eyes(marty, config_name, eye_configs):
+    if config_name in eye_configs:
+        config = eye_configs[config_name]
+        marty.disco_color(config['color'])
+        marty.eyes(config['animation'])
+    else:
+        print(f"Config '{config_name}' not found. Available: {list(eye_configs.keys())}")
+
+if __name__ == "__main__":
+    marty = connexion()
+    if marty is None:
+        print("Cannot proceed without Marty connection.")
+    else:
+        eye_configs = parse_feels_file('real.feels')
+        try:
+            set_marty_eyes(marty, "angry", eye_configs)
+            
+            
+        finally:
+            marty.close()
