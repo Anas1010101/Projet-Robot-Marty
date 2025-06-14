@@ -40,3 +40,10 @@ def readFileDance(content):
         "commands": movements,
         "type": "sequence"
     }
+
+def extractMovements(content):
+    """
+    Retourne uniquement la liste des mouvements à partir du contenu texte.
+    """
+    data = readFileDance(content)
+    return data["commands"] if data["mode"] == "SEQ" else []
