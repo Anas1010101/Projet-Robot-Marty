@@ -46,3 +46,10 @@ def get_emotion_by_color(data_dict, color):
     """
     return data_dict.get(color, {}).get('emotion', None)
 
+def get_hex_by_color(data_dict, color):
+    """
+    Retourne le code hexadécimal associé à une couleur donnée.
+    Si la couleur n’existe pas, retourne None.
+    """
+    return data_dict.get(color, {}).get('hex_code', None)
+
