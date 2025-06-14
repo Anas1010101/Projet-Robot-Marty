@@ -53,3 +53,15 @@ def get_hex_by_color(data_dict, color):
     """
     return data_dict.get(color, {}).get('hex_code', None)
 
+def get_colors_by_emotion(data_dict, emotion):
+    """
+    Retourne une liste de toutes les couleurs liées à une émotion donnée.
+
+    Exemple :
+        get_colors_by_emotion(data, "calm") → ["blue", "green"]
+    """
+    return [
+        color for color, details in data_dict.items()
+        if details.get("emotion") == emotion
+    ]
+
