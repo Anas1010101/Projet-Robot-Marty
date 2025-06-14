@@ -26,3 +26,15 @@ def read_file_feels(content):
                 }
 
     return data
+
+def process_file_feels(path):
+    """
+    Ouvre un fichier texte situé à l’emplacement 'path',
+    lit son contenu, puis le transforme en dictionnaire avec read_file_feels().
+
+    Retourne un dictionnaire avec les couleurs, émotions et codes hexadécimaux.
+    """
+    with open(path, 'r', encoding='utf-8') as file:
+        content = file.read()
+
+    return read_file_feels(content)
