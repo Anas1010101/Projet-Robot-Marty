@@ -47,3 +47,39 @@ def extractMovements(content):
     """
     data = readFileDance(content)
     return data["commands"] if data["mode"] == "SEQ" else []
+
+def dictMovements(content):
+    """
+    Retourne un dictionnaire enrichi des mouvements, avec :
+        - traduction des directions,
+        - numéro de l'étape,
+        - structure lisible pour affichage ou interface.
+    """
+    data = readFileDance(content)
+
+    if data["mode"] != "SEQ":
+        return {}
+
+    detailed_movements = []
+    direction_map = {
+        'L': 'left',
+        'R': 'right',
+        'U': 'up',
+        'B': 'bottom'
+    }
+
+    for i, (nb, dir_code) in enumerate(data["commands"], start=1):
+        detailed_movements.append({
+            "step": i,
+            "nb_movements": nb,
+            "direction": dir_code,
+            "name_dir": direction_map.get(dir_code, "unknown")
+        })
+
+    return {
+        "mode": data["mode"],
+        "param": data["param"],
+        "nb_step": len(detailed_movements),
+        "movements": detailed_movements,
+        "sample": data["commands"]
+    }
