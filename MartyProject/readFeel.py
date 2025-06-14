@@ -38,3 +38,29 @@ def process_file_feels(path):
         content = file.read()
 
     return read_file_feels(content)
+
+def get_emotion_by_color(data_dict, color):
+    """
+    Retourne l’émotion associée à une couleur donnée.
+    Si la couleur n’existe pas, retourne None.
+    """
+    return data_dict.get(color, {}).get('emotion', None)
+
+def get_hex_by_color(data_dict, color):
+    """
+    Retourne le code hexadécimal associé à une couleur donnée.
+    Si la couleur n’existe pas, retourne None.
+    """
+    return data_dict.get(color, {}).get('hex_code', None)
+
+def get_colors_by_emotion(data_dict, emotion):
+    """
+    Retourne une liste de toutes les couleurs liées à une émotion donnée.
+
+    Exemple :
+        get_colors_by_emotion(data, "calm") → ["blue", "green"]
+    """
+    return [
+        color for color, details in data_dict.items()
+        if details.get("emotion") == emotion
+    ]
